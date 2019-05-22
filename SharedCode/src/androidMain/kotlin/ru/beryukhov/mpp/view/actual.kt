@@ -1,4 +1,4 @@
-package org.kotlin.mpp.mobile
+package ru.beryukhov.mpp.view
 
 actual fun platformName(): String {
     return "Android"

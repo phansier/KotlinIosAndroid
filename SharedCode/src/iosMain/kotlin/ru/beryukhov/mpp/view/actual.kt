@@ -1,4 +1,4 @@
-package org.kotlin.mpp.mobile
+package ru.beryukhov.mpp.view
 
 import platform.UIKit.UIDevice
 
