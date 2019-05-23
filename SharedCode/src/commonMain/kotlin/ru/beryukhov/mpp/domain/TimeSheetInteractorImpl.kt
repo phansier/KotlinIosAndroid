@@ -1,6 +1,6 @@
 package ru.beryukhov.mpp.domain
 
-import com.soywiz.klock.DateTime
+//import com.soywiz.klock.DateTime
 
 data class DateTimeRecord(var dateTime: DateTime, val isStart: Boolean)
 
@@ -51,4 +51,34 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
 
     private fun isSameDate(startTime: DateTime, endTime: DateTime): Boolean = endTime.dayOfYear == startTime.dayOfYear && endTime.year == startTime.year
 
+}
+
+class DateTime():Comparable<DateTime>{
+    constructor(i: Int):this(){
+
+    }
+
+    val dayOfYear: Int = 0
+    val minutes: String=""
+    val hours: String=""
+    val year: String=""
+    val month: String=""
+    val dayOfMonth: String = ""
+
+    override operator fun compareTo(startDate: DateTime): Int {
+        return 0
+    }
+
+    operator fun minus(startTime: DateTime): DateTime {
+        return DateTime()
+    }
+
+    companion object{
+        fun createAdjusted( a:Int, b:Int, c:Int,  d:Int, e:Int=0):DateTime {return DateTime()
+        }
+
+        fun now(): DateTime {
+            return DateTime()
+        }
+    }
 }
