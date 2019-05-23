@@ -2,27 +2,33 @@ package ru.beryukhov.mpp.presenter
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.domain.TimeSheetInteractor
-import ru.beryukhov.mpp.view.TimeSheetDatesView
+import ru.beryukhov.mpp.domain.TimeSheetInteractorImpl
+import ru.beryukhov.mpp.domain.TimeSheetRepository
+import ru.beryukhov.mpp.view.TimeSheetView
 
 /**
  * Created by Andrey Beryukhov
  */
-class TimeSheetPresenter(val timeSheetInteractor: TimeSheetInteractor, val timeSheetView: TimeSheetDatesView) {
+class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheetRepository: TimeSheetRepository) {
+    val timeSheetInteractor: TimeSheetInteractor
+
+    init {
+        timeSheetInteractor = TimeSheetInteractorImpl(timeSheetRepository)
+    }
+
     fun onCreateView() {
         timeSheetView.showProgress()
         GlobalScope.launch {
             val dates = async { timeSheetInteractor.getDatesList(getStartDate()) }
-            timeSheetView.addAll(dates.await())
             withContext(Dispatchers.Main) {
+                timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }
         }
@@ -35,8 +41,8 @@ class TimeSheetPresenter(val timeSheetInteractor: TimeSheetInteractor, val timeS
                 timeSheetInteractor.addStartTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
             }
-            timeSheetView.addAll(dates.await())
             withContext(Dispatchers.Main) {
+                timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }
         }
@@ -49,8 +55,8 @@ class TimeSheetPresenter(val timeSheetInteractor: TimeSheetInteractor, val timeS
                 timeSheetInteractor.addEndTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
             }
-            timeSheetView.addAll(dates.await())
             withContext(Dispatchers.Main) {
+                timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }
         }

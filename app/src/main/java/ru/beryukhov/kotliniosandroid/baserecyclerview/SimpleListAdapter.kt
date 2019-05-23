@@ -23,7 +23,7 @@ abstract class SimpleListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged()
     }
 
-    override fun add(newItems: ArrayList<IBaseListItem>?) {
+    override fun add(newItems: List<IBaseListItem>?) {
 
         for (newItem in newItems ?: return) {
             items.add(newItem)
