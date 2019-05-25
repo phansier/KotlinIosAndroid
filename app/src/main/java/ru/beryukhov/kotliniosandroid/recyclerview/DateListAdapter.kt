@@ -26,9 +26,10 @@ class DateListAdapter : SimpleListAdapter() {
 
             is DateViewHolder -> {
                 val dateItem = items[position] as DateItem
+                holder.date.text = dateItem.date
                 holder.startTime.text = dateItem.startTime
-                holder.endTime.text=dateItem.endTime
-                holder.duration.text=dateItem.duration
+                holder.endTime.text = dateItem.endTime
+                holder.duration.text = dateItem.duration
             }
 
             else -> throw IllegalStateException("There is no match with current holder instance")

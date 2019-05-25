@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), TimeSheetView {
     }
 
     override fun addAll(list: List<DateModel>) {
-        adapter.add(list.map { dm -> DateItem(dm.startTime, dm.endTime, dm.hours) })
+        adapter.add(list.map { dm -> DateItem(dm.date, dm.startTime, dm.endTime, dm.hours) })
     }
 
     override fun clear() {
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), TimeSheetView {
     }
 
     override fun showError(message: String) {
-        Toast.makeText(this,message,LENGTH_SHORT).show()
+        Toast.makeText(this, message, LENGTH_SHORT).show()
     }
 
     override fun showProgress() {

@@ -1,6 +1,8 @@
 package ru.beryukhov.mpp.domain
 
+import com.soywiz.klock.DateFormat
 import com.soywiz.klock.DateTime
+import com.soywiz.klock.PatternDateFormat
 
 data class DateTimeRecord(var dateTime: DateTime, val isStart: Boolean)
 
@@ -11,6 +13,8 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
             DateTimeRecord(DateTime.createAdjusted(2019, 5, 22, 9), true),
             DateTimeRecord(DateTime.createAdjusted(2019, 5, 22, 17, 30), false)
     )
+
+    private val timeFormat = PatternDateFormat("hh:mm")
 
     override suspend fun getDatesList(startDate: DateTime): List<DateModel> = getDatesListBlocking(startDate)
 
@@ -47,16 +51,16 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
                 startTime = dateTimeRecord.dateTime
             } else if (isSameDate(startTime, dateTimeRecord.dateTime)) {
                 val endTime = dateTimeRecord.dateTime
-                result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.year}",
-                        "${startTime.hours}:${startTime.minutes}",
-                        "${endTime.hours}:${endTime.minutes}",
-                        (endTime - startTime).hours.toString()))
+                result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
+                        startTime.toString(timeFormat),
+                        endTime.toString(timeFormat),
+                        (endTime - startTime).hours.toString().take(3)))
                 startTime = DateTime(0)
             }
         }
-        if (startTime!=DateTime(0)){
-            result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.year}",
-                    "${startTime.hours}:${startTime.minutes}",
+        if (startTime != DateTime(0)) {
+            result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
+                    startTime.toString(timeFormat),
                     "~",
                     "~"))
         }
