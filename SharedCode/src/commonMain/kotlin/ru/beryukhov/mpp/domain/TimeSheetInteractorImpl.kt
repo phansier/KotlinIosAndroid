@@ -51,7 +51,14 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
                         "${startTime.hours}:${startTime.minutes}",
                         "${endTime.hours}:${endTime.minutes}",
                         (endTime - startTime).hours.toString()))
+                startTime = DateTime(0)
             }
+        }
+        if (startTime!=DateTime(0)){
+            result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.year}",
+                    "${startTime.hours}:${startTime.minutes}",
+                    "~",
+                    "~"))
         }
         return result
     }

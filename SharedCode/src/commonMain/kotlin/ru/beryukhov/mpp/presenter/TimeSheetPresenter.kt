@@ -28,6 +28,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheet
         GlobalScope.launch {
             val dates = async { timeSheetInteractor.getDatesList(getStartDate()) }
             withContext(Dispatchers.Main) {
+                timeSheetView.clear()
                 timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }
@@ -42,6 +43,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheet
                 timeSheetInteractor.getDatesList(getStartDate())
             }
             withContext(Dispatchers.Main) {
+                timeSheetView.clear()
                 timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }
@@ -56,6 +58,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheet
                 timeSheetInteractor.getDatesList(getStartDate())
             }
             withContext(Dispatchers.Main) {
+                timeSheetView.clear()
                 timeSheetView.addAll(dates.await())
                 timeSheetView.hideProgress()
             }

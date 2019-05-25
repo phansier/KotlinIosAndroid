@@ -29,6 +29,7 @@ actual class TimeSheetPresenterKmp actual constructor(timeSheetView: TimeSheetVi
     actual fun onCreateView() {
         timeSheetView.showProgress()
         val dates = timeSheetInteractor.getDatesListBlocking(getStartDate())
+        timeSheetView.clear()
         timeSheetView.addAll(dates)
         timeSheetView.hideProgress()
     }
@@ -40,6 +41,7 @@ actual class TimeSheetPresenterKmp actual constructor(timeSheetView: TimeSheetVi
         timeSheetView.showProgress()
         timeSheetInteractor.addStartTimeBlocking(DateTime.now())
         val dates = timeSheetInteractor.getDatesListBlocking(getStartDate())
+        timeSheetView.clear()
         timeSheetView.addAll(dates)
         timeSheetView.hideProgress()
 
@@ -55,8 +57,7 @@ actual class TimeSheetPresenterKmp actual constructor(timeSheetView: TimeSheetVi
 
         timeSheetInteractor.addEndTimeBlocking(DateTime.now())
         val dates = timeSheetInteractor.getDatesListBlocking(getStartDate())
-
-
+        timeSheetView.clear()
         timeSheetView.addAll(dates)
         timeSheetView.hideProgress()
 
