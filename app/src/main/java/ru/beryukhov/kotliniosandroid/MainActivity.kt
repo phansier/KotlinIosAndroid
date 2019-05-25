@@ -35,33 +35,23 @@ class MainActivity : AppCompatActivity(), TimeSheetView {
     }
 
     override fun addAll(list: List<DateModel>) {
-        runOnUiThread {
-            adapter.add(list.map { dm -> DateItem(dm.startTime, dm.endTime, dm.hours) })
-        }
+        adapter.add(list.map { dm -> DateItem(dm.startTime, dm.endTime, dm.hours) })
     }
 
     override fun clear() {
-        runOnUiThread {
-            adapter.clearAll()
-        }
+        adapter.clearAll()
     }
 
     override fun showError(message: String) {
-        runOnUiThread {
-            Toast.makeText(this, message, LENGTH_SHORT).show()
-        }
+        Toast.makeText(this,message,LENGTH_SHORT).show()
     }
 
     override fun showProgress() {
         //todo
-        runOnUiThread {
-        }
     }
 
     override fun hideProgress() {
         //todo
-        runOnUiThread {
-        }
     }
 
     private fun setUpButtons(presenter: TimeSheetPresenter) {
