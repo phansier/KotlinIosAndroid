@@ -14,7 +14,7 @@ import ru.beryukhov.mpp.domain.TimeSheetRepository
 import ru.beryukhov.mpp.view.TimeSheetView
 import kotlin.coroutines.CoroutineContext
 
-internal /*expect*/ val commonCoroutineContext: CoroutineContext =Dispatchers.Default
+internal /*expect*/ val commonCoroutineContext: CoroutineContext = Dispatchers.Default
 
 /**
  * Created by Andrey Beryukhov
@@ -68,6 +68,8 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheet
     fun onItemClick(item: DateModel) { /*todo*/
     }
 
-    private fun getStartDate() = DateTime.now() //- DateTimeSpan(days = 7)
+    companion object {
+        fun getStartDate() = DateTime.now() //- DateTimeSpan(days = 7)
+    }
 
 }
