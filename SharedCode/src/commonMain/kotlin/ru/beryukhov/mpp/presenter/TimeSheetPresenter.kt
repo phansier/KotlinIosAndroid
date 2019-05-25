@@ -1,14 +1,13 @@
 package ru.beryukhov.mpp.presenter
 
-//import com.soywiz.klock.DateTime
-//import com.soywiz.klock.DateTimeSpan
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.DateTimeSpan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.beryukhov.mpp.domain.DateModel
-import ru.beryukhov.mpp.domain.DateTime
 import ru.beryukhov.mpp.domain.TimeSheetInteractor
 import ru.beryukhov.mpp.domain.TimeSheetInteractorImpl
 import ru.beryukhov.mpp.domain.TimeSheetRepository
@@ -67,6 +66,6 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, private val timeSheet
     }
 
     companion object {
-        fun getStartDate() = DateTime.now()// - DateTimeSpan(days = 7)
+        fun getStartDate() = DateTime.now() - DateTimeSpan(days = 7)
     }
 }

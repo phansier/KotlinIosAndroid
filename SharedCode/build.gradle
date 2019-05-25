@@ -1,5 +1,5 @@
 apply plugin: 'kotlin-multiplatform'
-//apply plugin: 'kotlinx-serialization'
+apply plugin: 'kotlinx-serialization'
 
 
 kotlin {
@@ -21,12 +21,12 @@ kotlin {
         commonMain.dependencies {
             implementation 'org.jetbrains.kotlin:kotlin-stdlib'
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
-            //implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
 
-            //implementation "io.ktor:ktor-client-core:$ktor_version"
-            //implementation "io.ktor:ktor-client-json:$ktor_version"
+            implementation "io.ktor:ktor-client-core:$ktor_version"
+            implementation "io.ktor:ktor-client-json:$ktor_version"
 
-            //implementation "com.soywiz:klock-metadata:$klockVersion"
+            implementation "com.soywiz:klock-metadata:$klockVersion"
         }
 
         androidMain.dependencies{
@@ -34,25 +34,25 @@ kotlin {
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
-            //implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
 
-            //implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
-            //implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
 
-            //implementation "com.soywiz:klock-jvm:$klockVersion"
+            implementation "com.soywiz:klock-jvm:$klockVersion"
 
         }
 
         iosMain {
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
-                //implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
 
-                //implementation "io.ktor:ktor-client-ios:$ktor_version"
-                //implementation "io.ktor:ktor-client-core-native:$ktor_version"
-                //implementation "io.ktor:ktor-client-json-native:$ktor_version"
+                implementation "io.ktor:ktor-client-ios:$ktor_version"
+                implementation "io.ktor:ktor-client-core-native:$ktor_version"
+                implementation "io.ktor:ktor-client-json-native:$ktor_version"
 
-                //implementation "com.soywiz:klock-iosx64:$klockVersion"
+                implementation "com.soywiz:klock-iosx64:$klockVersion"
             }
         }
 

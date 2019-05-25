@@ -1,7 +1,7 @@
 package ru.beryukhov.mpp.presenter
 
+import com.soywiz.klock.DateTime
 import ru.beryukhov.mpp.domain.DateModel
-import ru.beryukhov.mpp.domain.DateTime
 import ru.beryukhov.mpp.domain.TimeSheetInteractor
 import ru.beryukhov.mpp.domain.TimeSheetInteractorImpl
 import ru.beryukhov.mpp.domain.TimeSheetRepository
