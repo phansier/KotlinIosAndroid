@@ -10,25 +10,27 @@ import UIKit
 import SharedCode
 
 class ViewController: UIViewController, TimeSheetView {
+    var datesList = [DateModel]()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder:aDecoder)
-        //todo
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBAction func onFixStartButton(_ sender: UIButton) {
+        self.presenter?.onFixStart()
+    }
+    @IBAction func onFixEndButton(_ sender: UIButton) {
+        self.presenter?.onFixEnd()
     }
     
-    var presenter:TimeSheetPresenterKmp
+    var presenter: TimeSheetPresenterKmp?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         presenter = TimeSheetPresenterKmp(timeSheetView:self, timeSheetRepository:TimeSheetRepositoryImplSwift())
-        presenter.onCreateView()
-        
-        //let startButton = vie
-        /*let myViewControllerInstance : ViewController = (UIStoryboard.init(name: "main", bundle: nil) as! ViewController)
-        myViewControllerInstance.start*/
-        
-
+        presenter?.onCreateView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,16 +39,13 @@ class ViewController: UIViewController, TimeSheetView {
     }
     
     func addAll(list: [DateModel]) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.font = label.font.withSize(25)
-        label.text = list.count.description
-        view.addSubview(label)
+        self.datesList.append(contentsOf: list)
+        tableView.reloadData()
     }
     
     func clear() {
-        
+        self.datesList.removeAll()
+        tableView.reloadData()
     }
     
     func showError(message: String) {
@@ -61,15 +60,44 @@ class ViewController: UIViewController, TimeSheetView {
         
     }
     
-    @IBAction func startButton(sender:UIButton){
-        if (sender.restorationIdentifier=="start"){
-            presenter.onFixStart()
-        }
-    }
-    
     class TimeSheetRepositoryImplSwift: TimeSheetRepository{
         
     }
     
 }
 
+extension ViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return datesList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "proto") as? DateViewCell else {
+            return DateViewCell()
+        }
+        if (indexPath.row<datesList.count){
+            cell.dateLabel.text = datesList[indexPath.row].date
+            cell.startTimeLabel.text = datesList[indexPath.row].startTime
+            cell.endTimeLabel.text = datesList[indexPath.row].endTime
+            cell.durationLabel.text = datesList[indexPath.row].hours
+        }
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+}
+
+class DateViewCell: UITableViewCell{
+    @IBOutlet weak var dateLabel:UILabel!
+    @IBOutlet weak var startTimeLabel:UILabel!
+    @IBOutlet weak var endTimeLabel:UILabel!
+    @IBOutlet weak var durationLabel:UILabel!
+
+
+}
