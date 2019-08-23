@@ -26,8 +26,8 @@ kotlin {
             implementation "io.ktor:ktor-client-core:$ktor_version"
             implementation "io.ktor:ktor-client-json:$ktor_version"
 
-            //implementation "com.soywiz.korlibs.klock:klock:$klockVersion"
-            implementation "com.soywiz.korlibs.klock:klock-metadata:$klockVersion"
+            implementation "com.soywiz.korlibs.klock:klock:$klockVersion"
+            //implementation "com.soywiz.korlibs.klock:klock-metadata:$klockVersion"
         }
 
         androidMain.dependencies{
@@ -40,7 +40,7 @@ kotlin {
             implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
 
-            implementation "com.soywiz.korlibs.klock:klock-jvm:$klockVersion"
+            //implementation "com.soywiz.korlibs.klock:klock-jvm:$klockVersion"
 
         }
 
@@ -53,7 +53,7 @@ kotlin {
                 implementation "io.ktor:ktor-client-core-native:$ktor_version"
                 implementation "io.ktor:ktor-client-json-native:$ktor_version"
 
-                implementation "com.soywiz.korlibs.klock:klock-iosx64:$klockVersion"
+                //implementation "com.soywiz.korlibs.klock:klock-iosx64:$klockVersion"
             }
         }
 
