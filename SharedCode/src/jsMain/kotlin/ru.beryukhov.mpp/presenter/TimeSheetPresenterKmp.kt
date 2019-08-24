@@ -8,10 +8,6 @@ import ru.beryukhov.mpp.domain.TimeSheetRepository
 import ru.beryukhov.mpp.presenter.TimeSheetPresenter.Companion.getStartDate
 import ru.beryukhov.mpp.view.TimeSheetView
 
-import kotlin.browser.*
-import kotlinx.html.*
-import kotlinx.html.dom.*
-
 
 /**
  * Created by Andrey Beryukhov
@@ -20,20 +16,7 @@ import kotlinx.html.dom.*
  * View methods implementation should return to main (UI) thread
  */
 
-fun main() {
-    println("Hello JavaScript!")
-    printHello()
-}
 
-fun printHello() {
-    window.onload = {
-        document.body!!.append.div {
-            span {
-                +"Hello"
-            }
-        }
-    }
-}
 
 actual class TimeSheetPresenterKmp actual constructor(timeSheetView: TimeSheetView, timeSheetRepository: TimeSheetRepository) {
     val timeSheetInteractor: TimeSheetInteractor
