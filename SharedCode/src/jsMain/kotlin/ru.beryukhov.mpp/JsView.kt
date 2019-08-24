@@ -3,6 +3,7 @@ package ru.beryukhov.mpp
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
+import org.w3c.dom.asList
 import org.w3c.dom.get
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.domain.TimeSheetRepositoryImpl
@@ -10,6 +11,7 @@ import ru.beryukhov.mpp.presenter.TimeSheetPresenter
 import ru.beryukhov.mpp.view.TimeSheetView
 import kotlin.browser.document
 import kotlin.browser.window
+import kotlin.dom.removeClass
 
 fun main() {
     println("Hello JavaScript!")
@@ -54,11 +56,20 @@ object JsView : TimeSheetView {
     override fun addAll(list: List<DateModel>) {
         val text = list.fold("") { text, item -> "$text$item\n" }
         println(text)
-        setSpanText(text)
+        document.body?.append?.div(classes = divClass) {
+            span(classes = spanClass) {
+                +text
+            }
+            //setSpanText(text)
+        }
     }
 
     override fun clear() {
-        setSpanText("")
+        //setSpanText("")
+        document.body
+                ?.getElementsByClassName(divClass)
+                ?.asList()
+                ?.forEach { it.remove() }
     }
 
     private fun setSpanText(text: String) {
