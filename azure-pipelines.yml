@@ -1,4 +1,5 @@
 # Gradle
+
 # Build your Java project and run tests with Gradle using a Gradle wrapper script.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -20,4 +21,4 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
+    tasks: 'app:assembleDebug packForXCode jsBrowserWebpack'
