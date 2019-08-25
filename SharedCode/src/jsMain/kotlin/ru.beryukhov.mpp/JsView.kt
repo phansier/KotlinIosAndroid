@@ -60,25 +60,14 @@ object JsView : TimeSheetView {
             span(classes = spanClass) {
                 +text
             }
-            //setSpanText(text)
         }
     }
 
     override fun clear() {
-        //setSpanText("")
         document.body
                 ?.getElementsByClassName(divClass)
                 ?.asList()
                 ?.forEach { it.remove() }
-    }
-
-    private fun setSpanText(text: String) {
-        val div = document.body
-                ?.getElementsByClassName(divClass)?.get(0)
-                ?.getElementsByClassName(spanClass)?.get(0)
-        if (div is SPAN) {
-            div.text(text)
-        }
     }
 
     override fun showError(message: String) {
