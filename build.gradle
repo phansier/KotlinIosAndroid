@@ -7,6 +7,8 @@ buildscript {
     ext.serialization_version='0.11.1'
     ext.klockVersion = "1.5.0"
 
+    ext.logback_version = '1.2.3'
+
     repositories {
         maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url "https://dl.bintray.com/kotlin/kotlin-eap/" }
