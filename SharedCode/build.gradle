@@ -35,7 +35,7 @@ kotlin {
             //implementation "com.soywiz.korlibs.klock:klock-metadata:$klockVersion"
         }
 
-        jvmMain.dependencies{
+        jvmMain.dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
@@ -87,7 +87,6 @@ configurations {
 }
 
 
-
 task packForXCode(type: Sync) {
     final File frameworkDir = new File(buildDir, "xcode-frameworks")
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
@@ -111,5 +110,10 @@ tasks.build.dependsOn packForXCode
 
 jvmJar {
     dependsOn(jsBrowserWebpack)
-    from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+    doLast {
+        copy {
+            from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+            into "../backend/resources"
+        }
+    }
 }
