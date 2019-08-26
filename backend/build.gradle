@@ -11,10 +11,11 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "io.ktor:ktor-html-builder:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
+
+    implementation project(':SharedCode')
 }
 
-task runServer(type: JavaExec/*, dependsOn: [jvmJar]*/) {
-    //group = "application"
+task runServer(type: JavaExec) {
     main = "ru.beryukhov.mpp.SampleJvmKt"
     classpath(configurations.runtimeClasspath, jar)
     args = []
