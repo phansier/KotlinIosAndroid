@@ -1,0 +1,70 @@
+//UML class diagram can be opened with PlantUML plugin
+
+@startuml
+interface TimeSheetInteractor{
+*getDatesList()
+*addStartTime()
+*addEndTime()
++getDatesList()
++addStartTime()
++addEndTime()
+-timeSheetRepository
+}
+
+class TimeSheetInteractorImpl
+
+interface TimeSheetPresenter{
+-timeSheetInteractor
++onCreateView()
++onFixStart()
++onFixEnd()
++onItemClick()
+}
+
+interface TimeSheetPresenterKmpJsAndroid{
+-timeSheetInteractor
+*onCreateView()
+*onFixStart()
+*onFixEnd()
+*onItemClick()
+}
+
+interface TimeSheetPresenterKmpIos{
+-timeSheetInteractor
+*onCreateView()
+*onFixStart()
+*onFixEnd()
+*onItemClick()
+}
+
+interface TimeSheetView{
+-timeSheetPresenterKmp
++addAll()
++clear()
++showError()
++showProgress()
++hideProgress()
+}
+
+TimeSheetInteractor --> TimeSheetRepository: DI
+TimeSheetInteractor <-- TimeSheetPresenter
+TimeSheetPresenter <-- TimeSheetPresenterKmpJsAndroid
+TimeSheetInteractor <-- TimeSheetPresenterKmpIos
+TimeSheetInteractor <|- TimeSheetInteractorImpl
+TimeSheetPresenterKmpJsAndroid <-- TimeSheetView
+TimeSheetPresenterKmpIos <-- TimeSheetView
+TimeSheetPresenterKmpIos --> TimeSheetView
+TimeSheetPresenter --> TimeSheetView
+
+class MainActivity
+class JsView
+
+interface TimeSheetRepository
+
+TimeSheetView <|-- MainActivity
+TimeSheetView <|-- JsView
+TimeSheetView <|-- ViewController
+
+
+
+@enduml
