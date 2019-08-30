@@ -1,17 +1,17 @@
 package ru.beryukhov.mpp
 
-import kotlinx.html.*
+import kotlinx.html.button
+import kotlinx.html.div
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.span
 import org.w3c.dom.asList
-import org.w3c.dom.get
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.domain.TimeSheetRepositoryImpl
-import ru.beryukhov.mpp.presenter.TimeSheetPresenter
+import ru.beryukhov.mpp.presenter.TimeSheetPresenterKmp
 import ru.beryukhov.mpp.view.TimeSheetView
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.dom.removeClass
 
 fun main() {
     println("Hello JavaScript!")
@@ -25,7 +25,7 @@ object JsView : TimeSheetView {
     fun printHello() {
         window.onload = {
             //create presenter
-            val presenter = TimeSheetPresenter(this, TimeSheetRepositoryImpl())
+            val presenter = TimeSheetPresenterKmp(this, TimeSheetRepositoryImpl())
             presenter.onCreateView()
             //create buttons
             document.body!!.append.div {
