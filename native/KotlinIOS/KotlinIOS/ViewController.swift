@@ -21,7 +21,7 @@ class ViewController: UIViewController, TimeSheetView {
         self.presenter?.onFixEnd()
     }
     
-    var presenter: TimeSheetPresenterKmp?
+    var presenter: TimeSheetPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class ViewController: UIViewController, TimeSheetView {
         tableView.dataSource = self
         tableView.delegate = self
         
-        presenter = TimeSheetPresenterKmp(timeSheetView:self, timeSheetRepository:TimeSheetRepositoryImplSwift())
+        presenter = TimeSheetPresenter(timeSheetView:self, timeSheetRepository:TimeSheetRepositoryImplSwift())
         presenter?.onCreateView()
     }
     

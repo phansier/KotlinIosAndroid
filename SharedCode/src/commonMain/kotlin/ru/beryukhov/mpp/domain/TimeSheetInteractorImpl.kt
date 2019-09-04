@@ -1,6 +1,5 @@
 package ru.beryukhov.mpp.domain
 
-import com.soywiz.klock.DateFormat
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.PatternDateFormat
 
@@ -18,13 +17,13 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
 
     override suspend fun getDatesList(startDate: DateTime): List<DateModel> = getDatesListBlocking(startDate)
 
-    override fun getDatesListBlocking(startDate: DateTime): List<DateModel> {
+    private fun getDatesListBlocking(startDate: DateTime): List<DateModel> {
         return getDateModelList(list.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate })
     }
 
     override suspend fun addStartTime(time: DateTime) = addStartTimeBlocking(time)
 
-    override fun addStartTimeBlocking(time: DateTime) {
+    private fun addStartTimeBlocking(time: DateTime) {
         val hasTime = list.find { dateTimeRecord -> dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
             hasTime.dateTime = time
@@ -34,7 +33,7 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
 
     override suspend fun addEndTime(time: DateTime) = addEndTimeBlocking(time)
 
-    override fun addEndTimeBlocking(time: DateTime) {
+    private fun addEndTimeBlocking(time: DateTime) {
         val hasTime = list.find { dateTimeRecord -> !dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
             hasTime.dateTime = time

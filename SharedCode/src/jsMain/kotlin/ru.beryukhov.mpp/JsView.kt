@@ -5,8 +5,8 @@ import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.asList
 import ru.beryukhov.mpp.domain.DateModel
-import ru.beryukhov.mpp.domain.TimeSheetRepositoryImpl
-import ru.beryukhov.mpp.presenter.TimeSheetPresenterKmp
+import ru.beryukhov.mpp.domain.TimeSheetRepository
+import ru.beryukhov.mpp.presenter.TimeSheetPresenter
 import ru.beryukhov.mpp.view.TimeSheetView
 import kotlin.browser.document
 import kotlin.browser.window
@@ -27,7 +27,7 @@ object JsView : TimeSheetView {
     fun init() {
         window.onload = {
             //create presenter
-            val presenter = TimeSheetPresenterKmp(this, TimeSheetRepositoryImpl())
+            val presenter = TimeSheetPresenter(this, object: TimeSheetRepository {})
             presenter.onCreateView()
             //create buttons
             document.body!!.append.div {
