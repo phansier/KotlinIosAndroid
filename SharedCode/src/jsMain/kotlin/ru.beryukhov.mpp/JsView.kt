@@ -1,10 +1,8 @@
 package ru.beryukhov.mpp
 
-import kotlinx.html.button
-import kotlinx.html.div
+import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
-import kotlinx.html.span
 import org.w3c.dom.asList
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.domain.TimeSheetRepositoryImpl
@@ -14,15 +12,19 @@ import kotlin.browser.document
 import kotlin.browser.window
 
 fun main() {
-    println("Hello JavaScript!")
-    JsView.printHello()
+    JsView.init()
 }
 
 private const val divClass = "div"
 private const val spanClass = "span"
+private const val defaultButtonStyle = "border: none; color: white; padding: 15px 32px; margin: 18px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;"
+private const val greenButtonStyle = "background-color: #4CAF50;\n" + defaultButtonStyle
+private const val redButtonStyle = "background-color: #f44336;\n" + defaultButtonStyle
+private const val divStyle = "padding: 8px 16px; border-bottom: 2px solid #7B5427;"
+
 
 object JsView : TimeSheetView {
-    fun printHello() {
+    fun init() {
         window.onload = {
             //create presenter
             val presenter = TimeSheetPresenterKmp(this, TimeSheetRepositoryImpl())
@@ -34,6 +36,7 @@ object JsView : TimeSheetView {
                         println("Fix start")
                         presenter.onFixStart()
                     }
+                    style = greenButtonStyle
                     +"Fix start"
                 }
                 button {
@@ -41,6 +44,7 @@ object JsView : TimeSheetView {
                         println("Fix end")
                         presenter.onFixEnd()
                     }
+                    style = redButtonStyle
                     +"Fix end"
                 }
             }
@@ -54,16 +58,25 @@ object JsView : TimeSheetView {
     }
 
     override fun addAll(list: List<DateModel>) {
-        val text = list.fold("") { text, item -> "$text$item\n" }
-        println(text)
-        document.body?.append?.div(classes = divClass) {
-            span(classes = spanClass) {
-                +text
+        println("addAll")
+        list.forEach {
+            document.body?.append?.div(classes = divClass) {
+                style = divStyle
+                p(classes = spanClass) {
+                    +"Date: ${it.date}"
+                }
+                p(classes = spanClass) {
+                    +"Time: ${it.startTime} - ${it.endTime}"
+                }
+                p(classes = spanClass) {
+                    +"Duration: ${it.hours}"
+                }
             }
         }
     }
 
     override fun clear() {
+        println("clear")
         document.body
                 ?.getElementsByClassName(divClass)
                 ?.asList()

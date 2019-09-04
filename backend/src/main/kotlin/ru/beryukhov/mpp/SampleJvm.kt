@@ -38,11 +38,6 @@ fun main() {
                         title("Hello from Ktor!")
                     }
                     body {
-                        +"Test"
-                        div {
-                            id = "js-response"
-                            +"Loading..."
-                        }
                         script(src = "/static/KotlinIosAndroid-SharedCode.js") {}
                     }
                 }
