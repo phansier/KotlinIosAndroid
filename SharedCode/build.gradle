@@ -7,20 +7,20 @@ kotlin {
         final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
                               ? presets.iosArm64 : presets.iosX64
 
-        fromPreset(presets.jvm,'android')
-
         fromPreset(iOSTarget, 'ios') {
             binaries {
                 framework('SharedCode')
             }
         }
-
     }
 
     js {
         browser {
         }
     }
+
+    //target for both Android & Backend
+    jvm()
 
     sourceSets {
         commonMain.dependencies {
@@ -35,7 +35,7 @@ kotlin {
             //implementation "com.soywiz.korlibs.klock:klock-metadata:$klockVersion"
         }
 
-        androidMain.dependencies{
+        jvmMain.dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
@@ -46,7 +46,6 @@ kotlin {
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
 
             //implementation "com.soywiz.korlibs.klock:klock-jvm:$klockVersion"
-
         }
 
         iosMain {
@@ -88,7 +87,6 @@ configurations {
 }
 
 
-
 task packForXCode(type: Sync) {
     final File frameworkDir = new File(buildDir, "xcode-frameworks")
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
@@ -109,3 +107,13 @@ task packForXCode(type: Sync) {
 }
 
 tasks.build.dependsOn packForXCode
+
+jvmJar {
+    dependsOn(jsBrowserWebpack)
+    doLast {
+        copy {
+            from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+            into "../backend/resources"
+        }
+    }
+}

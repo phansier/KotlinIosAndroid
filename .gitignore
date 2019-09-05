@@ -4,6 +4,7 @@
 /.idea
 .DS_Store
 /build
+backend/build
 /captures
 .externalNativeBuild
 native/KotlinIOS/KotlinIOS.xcodeproj/project.xcworkspace/xcuserdata/andrey.xcuserdatad/UserInterfaceState.xcuserstate

@@ -12,5 +12,4 @@ expect class TimeSheetPresenterKmp(timeSheetView: TimeSheetView, timeSheetReposi
     fun onFixStart()
     fun onFixEnd()
     fun onItemClick(item: DateModel)
-
 }
