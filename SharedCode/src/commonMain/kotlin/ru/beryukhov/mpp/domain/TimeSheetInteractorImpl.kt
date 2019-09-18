@@ -2,41 +2,30 @@ package ru.beryukhov.mpp.domain
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.PatternDateFormat
-
-data class DateTimeRecord(var dateTime: DateTime, val isStart: Boolean)
+import kotlin.math.roundToInt
 
 class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : TimeSheetInteractor {
 
-    //todo remove
-    val list = mutableSetOf(
-            DateTimeRecord(DateTime.createAdjusted(2019, 5, 22, 9), true),
-            DateTimeRecord(DateTime.createAdjusted(2019, 5, 22, 17, 30), false)
-    )
+    val list = mutableSetOf<DateTimeRecord>()
 
-    private val timeFormat = PatternDateFormat("hh:mm")
+    private val timeFormat = PatternDateFormat("hh:mm:ss")
 
-    override suspend fun getDatesList(startDate: DateTime): List<DateModel> = getDatesListBlocking(startDate)
-
-    private fun getDatesListBlocking(startDate: DateTime): List<DateModel> {
+    override suspend fun getDatesList(startDate: DateTime): List<DateModel> {
         return getDateModelList(list.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate })
     }
 
-    override suspend fun addStartTime(time: DateTime) = addStartTimeBlocking(time)
-
-    private fun addStartTimeBlocking(time: DateTime) {
+    override suspend fun addStartTime(time: DateTime) {
         val hasTime = list.find { dateTimeRecord -> dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
-            hasTime.dateTime = time
+            list.remove(hasTime)
         }
         list.add(DateTimeRecord(time, true))
     }
 
-    override suspend fun addEndTime(time: DateTime) = addEndTimeBlocking(time)
-
-    private fun addEndTimeBlocking(time: DateTime) {
+    override suspend fun addEndTime(time: DateTime) {
         val hasTime = list.find { dateTimeRecord -> !dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
-            hasTime.dateTime = time
+            list.remove(hasTime)
         }
         list.add(DateTimeRecord(time, false))
     }
@@ -53,7 +42,7 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
                 result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
                         startTime.toString(timeFormat),
                         endTime.toString(timeFormat),
-                        (endTime - startTime).hours.toString().take(3)))
+                        (endTime - startTime).seconds.roundToInt().toString()))//seconds are for tests and demo todo set hours
                 startTime = DateTime(0)
             }
         }
