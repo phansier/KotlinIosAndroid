@@ -14,7 +14,7 @@ actual val uiScope = createMainScope()
 // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
 // See https://github.com/Kotlin/kotlinx.coroutines/issues/462
 
-actual val processScope: CoroutineScope = createMainScope()
+actual val processScope = createMainScope()
 
 // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
 // See https://github.com/Kotlin/kotlinx.coroutines/issues/462

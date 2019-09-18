@@ -2,9 +2,6 @@
 
 @startuml
 interface TimeSheetInteractor{
-*getDatesList()
-*addStartTime()
-*addEndTime()
 +getDatesList()
 +addStartTime()
 +addEndTime()
@@ -13,28 +10,12 @@ interface TimeSheetInteractor{
 
 class TimeSheetInteractorImpl
 
-interface TimeSheetPresenter{
+class TimeSheetPresenter{
 -timeSheetInteractor
 +onCreateView()
 +onFixStart()
 +onFixEnd()
 +onItemClick()
-}
-
-interface TimeSheetPresenterKmpJsAndroid{
--timeSheetInteractor
-*onCreateView()
-*onFixStart()
-*onFixEnd()
-*onItemClick()
-}
-
-interface TimeSheetPresenterKmpIos{
--timeSheetInteractor
-*onCreateView()
-*onFixStart()
-*onFixEnd()
-*onItemClick()
 }
 
 interface TimeSheetView{
@@ -46,14 +27,12 @@ interface TimeSheetView{
 +hideProgress()
 }
 
+
+
 TimeSheetInteractor --> TimeSheetRepository: DI
 TimeSheetInteractor <-- TimeSheetPresenter
-TimeSheetPresenter <-- TimeSheetPresenterKmpJsAndroid
-TimeSheetInteractor <-- TimeSheetPresenterKmpIos
+TimeSheetPresenter <-- TimeSheetView
 TimeSheetInteractor <|- TimeSheetInteractorImpl
-TimeSheetPresenterKmpJsAndroid <-- TimeSheetView
-TimeSheetPresenterKmpIos <-- TimeSheetView
-TimeSheetPresenterKmpIos --> TimeSheetView
 TimeSheetPresenter --> TimeSheetView
 
 class MainActivity
