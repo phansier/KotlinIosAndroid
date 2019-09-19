@@ -6,28 +6,35 @@ import kotlin.math.roundToInt
 
 class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : TimeSheetInteractor {
 
-    val list = mutableSetOf<DateTimeRecord>()
+    val dateTimeRecords = mutableSetOf<DateTimeRecord>()
 
     private val timeFormat = PatternDateFormat("hh:mm:ss")
 
     override suspend fun getDatesList(startDate: DateTime): List<DateModel> {
-        return getDateModelList(list.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate })
+        return getDateModelList(
+                if (dateTimeRecords.isEmpty()) {
+                    dateTimeRecords.addAll(timeSheetRepository.getRecordsFromServer())
+                    dateTimeRecords.toList()
+                } else {
+                    dateTimeRecords.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate }
+                }
+        )
     }
 
     override suspend fun addStartTime(time: DateTime) {
-        val hasTime = list.find { dateTimeRecord -> dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
+        val hasTime = dateTimeRecords.find { dateTimeRecord -> dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
-            list.remove(hasTime)
+            dateTimeRecords.remove(hasTime)
         }
-        list.add(DateTimeRecord(time, true))
+        dateTimeRecords.add(DateTimeRecord(time, true))
     }
 
     override suspend fun addEndTime(time: DateTime) {
-        val hasTime = list.find { dateTimeRecord -> !dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
+        val hasTime = dateTimeRecords.find { dateTimeRecord -> !dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
         if (hasTime != null) {
-            list.remove(hasTime)
+            dateTimeRecords.remove(hasTime)
         }
-        list.add(DateTimeRecord(time, false))
+        dateTimeRecords.add(DateTimeRecord(time, false))
     }
 
     private fun getDateModelList(list: List<DateTimeRecord>): List<DateModel> {

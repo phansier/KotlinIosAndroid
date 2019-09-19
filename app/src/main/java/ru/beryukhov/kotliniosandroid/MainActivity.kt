@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.beryukhov.kotliniosandroid.baserecyclerview.SimpleListAdapter
 import ru.beryukhov.kotliniosandroid.recyclerview.DateItem
 import ru.beryukhov.kotliniosandroid.recyclerview.DateListAdapter
+import ru.beryukhov.mpp.domain.BaseTimeSheetRepositoryImpl
 import ru.beryukhov.mpp.domain.DateModel
-import ru.beryukhov.mpp.domain.TimeSheetRepository
 import ru.beryukhov.mpp.presenter.TimeSheetPresenter
 import ru.beryukhov.mpp.view.TimeSheetView
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), TimeSheetView {
         days_rv.layoutManager = LinearLayoutManager(this)
         days_rv.adapter = adapter
 
-        val presenter = TimeSheetPresenter(this, object:TimeSheetRepository{})
+        val presenter = TimeSheetPresenter(this, BaseTimeSheetRepositoryImpl())
         presenter.onCreateView()
 
         setUpButtons(presenter)

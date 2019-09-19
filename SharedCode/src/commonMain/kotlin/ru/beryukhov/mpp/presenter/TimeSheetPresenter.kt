@@ -5,6 +5,7 @@ package ru.beryukhov.mpp.presenter
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
 import kotlinx.coroutines.*
+import ru.beryukhov.mpp.coroutines.netScope
 import ru.beryukhov.mpp.coroutines.processScope
 import ru.beryukhov.mpp.coroutines.uiScope
 import ru.beryukhov.mpp.domain.DateModel
@@ -25,7 +26,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
 
     fun onCreateView() {
         timeSheetView.showProgress()
-        processScope.launch {
+        netScope.launch {
             val dates = async {
                 timeSheetInteractor.getDatesList(getStartDate())
             }

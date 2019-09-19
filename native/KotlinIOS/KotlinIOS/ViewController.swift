@@ -29,7 +29,7 @@ class ViewController: UIViewController, TimeSheetView {
         tableView.dataSource = self
         tableView.delegate = self
         
-        presenter = TimeSheetPresenter(timeSheetView:self, timeSheetRepository:TimeSheetRepositoryImplSwift())
+        presenter = TimeSheetPresenter(timeSheetView:self, timeSheetRepository:BaseTimeSheetRepositoryImpl())
         presenter?.onCreateView()
     }
     
@@ -59,11 +59,7 @@ class ViewController: UIViewController, TimeSheetView {
     func hideProgress() {
         
     }
-    
-    class TimeSheetRepositoryImplSwift: TimeSheetRepository{
-        
-    }
-    
+
 }
 
 extension ViewController: UITableViewDataSource {

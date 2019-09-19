@@ -4,8 +4,8 @@ import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.asList
+import ru.beryukhov.mpp.domain.BaseTimeSheetRepositoryImpl
 import ru.beryukhov.mpp.domain.DateModel
-import ru.beryukhov.mpp.domain.TimeSheetRepository
 import ru.beryukhov.mpp.presenter.TimeSheetPresenter
 import ru.beryukhov.mpp.view.TimeSheetView
 import kotlin.browser.document
@@ -27,7 +27,7 @@ object JsView : TimeSheetView {
     fun init() {
         window.onload = {
             //create presenter
-            val presenter = TimeSheetPresenter(this, object: TimeSheetRepository {})
+            val presenter = TimeSheetPresenter(this, BaseTimeSheetRepositoryImpl())
             presenter.onCreateView()
             //create buttons
             document.body!!.append.div {
@@ -48,7 +48,7 @@ object JsView : TimeSheetView {
                     +"Fix end"
                 }
             }
-            //create list
+            //create dateTimeRecords
             document.body?.append?.div(classes = divClass) {
                 span(classes = spanClass) {
 
