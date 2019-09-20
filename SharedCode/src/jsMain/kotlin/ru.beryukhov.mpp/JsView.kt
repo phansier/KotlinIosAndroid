@@ -48,7 +48,7 @@ object JsView : TimeSheetView {
                     +"Fix end"
                 }
             }
-            //create dateTimeRecords
+            //create list
             document.body?.append?.div(classes = divClass) {
                 span(classes = spanClass) {
 

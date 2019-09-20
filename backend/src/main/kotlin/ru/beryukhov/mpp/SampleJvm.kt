@@ -1,5 +1,6 @@
 package ru.beryukhov.mpp
 
+import com.soywiz.klock.DateTime
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -19,10 +20,15 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import kotlinx.html.*
+import ru.beryukhov.mpp.domain.DateTimeRecord
+import com.google.gson.GsonBuilder
 
-data class PostSnippet(val snippet: Text?) {
-    data class Text(val text: String?)
-}
+
+
+private val sampleList = listOf(
+        DateTimeRecord(DateTime.createAdjusted(2019, 9, 22, 9), true),
+        DateTimeRecord(DateTime.createAdjusted(2019, 9, 22, 17, 30), false)
+)
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
@@ -31,6 +37,11 @@ fun main() {
             //register(ContentType.Application.Json, SerializationConverter())
             register(ContentType.Application.Json, GsonConverter())
         }
+
+        val gson = GsonBuilder()
+                .setPrettyPrinting()
+                .create()
+
         routing {
             get("/") {
                 call.respondHtml {
@@ -43,7 +54,7 @@ fun main() {
                 }
             }
             get("/api") {
-                call.respond(TextContent("{}", ContentType.Application.Json))
+                call.respond(TextContent(gson.toJson(sampleList), ContentType.Application.Json))
             }
             post("/"){
                 val map = call.receive<Map<*, *>>()
@@ -52,10 +63,10 @@ fun main() {
             }
             post("/fixStart"){
                 println("call=$call")
-                val post = call.receive<PostSnippet>()
+                /*val post = call.receive<PostSnippet>()
                 println(post)
-                call.respond(post)
-                //call.respond(HttpStatusCode.OK)
+                call.respond(post)*/
+                call.respond(HttpStatusCode.OK)
             }
             post("/fixEnd"){
                 call.respond(HttpStatusCode.OK)

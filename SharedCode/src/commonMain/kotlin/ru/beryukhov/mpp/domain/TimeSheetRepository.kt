@@ -11,7 +11,7 @@ interface TimeSheetRepository {
     suspend fun getRecordsFromServer(): List<DateTimeRecord>
 }
 
-class BaseTimeSheetRepositoryImpl : TimeSheetRepository {
+open class BaseTimeSheetRepositoryImpl : TimeSheetRepository {
 
     override suspend fun getRecordsFromServer(): List<DateTimeRecord> {
         val client = HttpClient()

@@ -13,6 +13,7 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
     implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "com.soywiz.korlibs.klock:klock:$klockVersion"
 
     implementation project(':SharedCode')
 }
