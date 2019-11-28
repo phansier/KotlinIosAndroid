@@ -14,10 +14,10 @@ kotlin {
         }
     }
 
-    js {
+   /* js {
         browser {
         }
-    }
+    }*/
 
     //target for both Android & Backend
     jvm()
@@ -114,11 +114,11 @@ task packForXCode(type: Sync) {
 tasks.build.dependsOn packForXCode
 
 jvmJar {
-    dependsOn(jsBrowserWebpack)
+    /*dependsOn(jsBrowserWebpack)
     doLast {
         copy {
             from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
             into "../backend/resources"
         }
-    }
+    }*/
 }
