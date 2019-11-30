@@ -14,10 +14,9 @@ kotlin {
         }
     }
 
-   /* js {
-        browser {
-        }
-    }*/
+    js {
+        browser ()
+    }
 
     //target for both Android & Backend
     jvm()
@@ -80,6 +79,12 @@ kotlin {
                 implementation 'org.jetbrains.kotlinx:kotlinx-html-js:0.6.12'
             }
         }
+        //workaround for https://github.com/ktorio/ktor/issues/961
+        jsTest {
+            dependencies {
+                api(npm("text-encoding", text_encoding_version))
+            }
+        }
 
 
     }
@@ -114,11 +119,11 @@ task packForXCode(type: Sync) {
 tasks.build.dependsOn packForXCode
 
 jvmJar {
-    /*dependsOn(jsBrowserWebpack)
+    dependsOn(jsBrowserWebpack)
     doLast {
         copy {
             from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
             into "../backend/resources"
         }
-    }*/
+    }
 }
