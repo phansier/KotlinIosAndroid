@@ -4,8 +4,8 @@ apply plugin: 'kotlinx-serialization'
 
 kotlin {
     targets {
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
-                              ? presets.iosArm64 : presets.iosX64
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos")  \
+                               ? presets.iosArm64 : presets.iosX64
 
         fromPreset(iOSTarget, 'ios') {
             binaries {
@@ -13,16 +13,18 @@ kotlin {
             }
         }
     }
+    if (pBuildJs.toBoolean()) {
 
-    js {
-        browser ()
+        js {
+            browser()
+        }
     }
 
     //target for both Android & Backend
     jvm()
 
     sourceSets {
-        all{
+        all {
             languageSettings.useExperimentalAnnotation("kotlin.Experimental")
         }
 
@@ -58,7 +60,7 @@ kotlin {
             //implementation "com.soywiz.korlibs.klock:klock-jvm:$klockVersion"
         }
 
-        jvmTest.dependencies{
+        jvmTest.dependencies {
             implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
             implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         }
@@ -130,7 +132,9 @@ task packForXCode(type: Sync) {
 tasks.build.dependsOn packForXCode
 
 jvmJar {
-    dependsOn(jsBrowserWebpack)
+    if (pBuildJs.toBoolean()) {
+        dependsOn(jsBrowserWebpack)
+    }
     doLast {
         copy {
             from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
