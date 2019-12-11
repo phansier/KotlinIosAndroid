@@ -20,13 +20,15 @@ import ru.beryukhov.mpp.view.TimeSheetView
 class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: TimeSheetRepository) {
     val timeSheetInteractor: TimeSheetInteractor
 
+    val job = Job()
+
     init {
         timeSheetInteractor = TimeSheetInteractorImpl(timeSheetRepository)
     }
 
     fun onCreateView() {
         timeSheetView.showProgress()
-        netScope.launch {
+        netScope.launch(context = job) {
             val dates = async {
                 timeSheetInteractor.getDatesList(getStartDate())
             }
@@ -40,7 +42,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
 
     fun onFixStart() {
         timeSheetView.showProgress()
-        processScope.launch {
+        processScope.launch(context = job) {
             val dates = async {
                 timeSheetInteractor.addStartTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
@@ -55,7 +57,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
 
     fun onFixEnd() {
         timeSheetView.showProgress()
-        processScope.launch {
+        processScope.launch(context = job) {
             val dates = async {
                 timeSheetInteractor.addEndTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
@@ -69,6 +71,10 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
     }
 
     fun onItemClick(item: DateModel) { /*todo*/
+    }
+
+    fun onDestroyView() {
+        job.cancel()
     }
 
     companion object {
