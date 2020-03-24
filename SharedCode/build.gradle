@@ -4,8 +4,8 @@ apply plugin: 'kotlinx-serialization'
 
 kotlin {
     targets {
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos")  \
-                               ? presets.iosArm64 : presets.iosX64
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos")   \
+                                ? presets.iosArm64 : presets.iosX64
 
         fromPreset(iOSTarget, 'ios') {
             binaries {
@@ -16,7 +16,7 @@ kotlin {
     if (pBuildJs.toBoolean()) {
 
         js {
-            browser()
+
         }
     }
 
@@ -93,11 +93,11 @@ kotlin {
             }
         }
         //workaround for https://github.com/ktorio/ktor/issues/961
-        jsTest {
+        /*jsTest {
             dependencies {
                 api(npm("text-encoding", text_encoding_version))
             }
-        }
+        }*/
 
 
     }
@@ -134,11 +134,11 @@ tasks.build.dependsOn packForXCode
 jvmJar {
     if (pBuildJs.toBoolean()) {
         dependsOn(jsBrowserWebpack)
-    }
-    doLast {
-        copy {
-            from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
-            into "../backend/resources"
+        doLast {
+            copy {
+                from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+                into "../backend/resources"
+            }
         }
     }
 }
