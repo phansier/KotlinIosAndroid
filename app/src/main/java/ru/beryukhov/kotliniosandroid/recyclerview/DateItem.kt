@@ -1,6 +1,6 @@
 package ru.beryukhov.kotliniosandroid.recyclerview
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.date_item.view.*
 import ru.beryukhov.kotliniosandroid.R

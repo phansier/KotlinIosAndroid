@@ -1,6 +1,6 @@
 package ru.beryukhov.kotliniosandroid.recyclerview
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import ru.beryukhov.kotliniosandroid.R
 import ru.beryukhov.kotliniosandroid.baserecyclerview.SimpleListAdapter
