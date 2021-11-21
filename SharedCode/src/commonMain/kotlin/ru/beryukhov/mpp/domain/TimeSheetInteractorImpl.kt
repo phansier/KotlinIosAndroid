@@ -12,17 +12,22 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
 
     override suspend fun getDatesList(startDate: DateTime): List<DateModel> {
         return getDateModelList(
-                if (dateTimeRecords.isEmpty()) {
-                    dateTimeRecords.addAll(timeSheetRepository.getRecordsFromServer())
-                    dateTimeRecords.toList()
-                } else {
-                    dateTimeRecords.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate }
-                }
+            if (dateTimeRecords.isEmpty()) {
+                dateTimeRecords.addAll(timeSheetRepository.getRecordsFromServer())
+                dateTimeRecords.toList()
+            } else {
+                dateTimeRecords.filter { dateTimeRecord -> dateTimeRecord.dateTime >= startDate }
+            }
         )
     }
 
     override suspend fun addStartTime(time: DateTime) {
-        val hasTime = dateTimeRecords.find { dateTimeRecord -> dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
+        val hasTime = dateTimeRecords.find { (dateTime, isStart) ->
+            isStart && isSameDate(
+                dateTime,
+                time
+            )
+        }
         if (hasTime != null) {
             dateTimeRecords.remove(hasTime)
         }
@@ -30,7 +35,12 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
     }
 
     override suspend fun addEndTime(time: DateTime) {
-        val hasTime = dateTimeRecords.find { dateTimeRecord -> !dateTimeRecord.isStart && isSameDate(dateTimeRecord.dateTime, time) }
+        val hasTime = dateTimeRecords.find { (dateTime, isStart) ->
+            !isStart && isSameDate(
+                dateTime,
+                time
+            )
+        }
         if (hasTime != null) {
             dateTimeRecords.remove(hasTime)
         }
@@ -46,21 +56,30 @@ class TimeSheetInteractorImpl(val timeSheetRepository: TimeSheetRepository) : Ti
                 startTime = dateTimeRecord.dateTime
             } else if (isSameDate(startTime, dateTimeRecord.dateTime)) {
                 val endTime = dateTimeRecord.dateTime
-                result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
+                result.add(
+                    DateModel(
+                        "${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
                         startTime.toString(timeFormat),
                         endTime.toString(timeFormat),
-                        (endTime - startTime).seconds.roundToInt().toString()))//seconds are for tests and demo todo set hours
+                        (endTime - startTime).seconds.roundToInt().toString()
+                    )
+                )//seconds are for tests and demo todo set hours
                 startTime = DateTime(0)
             }
         }
         if (startTime != DateTime(0)) {
-            result.add(DateModel("${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
+            result.add(
+                DateModel(
+                    "${startTime.dayOfMonth} ${startTime.month} ${startTime.yearInt}",
                     startTime.toString(timeFormat),
                     "~",
-                    "~"))
+                    "~"
+                )
+            )
         }
         return result
     }
 
-    private fun isSameDate(startTime: DateTime, endTime: DateTime): Boolean = endTime.dayOfYear == startTime.dayOfYear && endTime.year == startTime.year
+    private fun isSameDate(startTime: DateTime, endTime: DateTime): Boolean =
+        endTime.dayOfYear == startTime.dayOfYear && endTime.year == startTime.year
 }

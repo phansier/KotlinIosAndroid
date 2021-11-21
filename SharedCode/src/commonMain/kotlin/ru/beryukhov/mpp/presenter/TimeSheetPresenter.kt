@@ -1,13 +1,19 @@
-@file:UseExperimental(ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class)
+@file:OptIn(
+    ExperimentalCoroutinesApi::class, InternalCoroutinesApi::class
+)
 
 package ru.beryukhov.mpp.presenter
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.DateTimeSpan
-import kotlinx.coroutines.*
-import ru.beryukhov.mpp.coroutines.netScope
-import ru.beryukhov.mpp.coroutines.processScope
-import ru.beryukhov.mpp.coroutines.uiScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.domain.TimeSheetInteractor
 import ru.beryukhov.mpp.domain.TimeSheetInteractorImpl
@@ -17,10 +23,13 @@ import ru.beryukhov.mpp.view.TimeSheetView
 /**
  * Created by Andrey Beryukhov
  */
-class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: TimeSheetRepository) {
+class TimeSheetPresenter(
+    val timeSheetView: TimeSheetView,
+    timeSheetRepository: TimeSheetRepository
+) {
     val timeSheetInteractor: TimeSheetInteractor
 
-    val job = Job()
+    private val scope = MainScope()
 
     init {
         timeSheetInteractor = TimeSheetInteractorImpl(timeSheetRepository)
@@ -28,45 +37,39 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
 
     fun onCreateView() {
         timeSheetView.showProgress()
-        netScope.launch(context = job) {
+        scope.launch {
             val dates = async {
                 timeSheetInteractor.getDatesList(getStartDate())
             }
-            withContext(uiScope.coroutineContext) {
-                timeSheetView.clear()
-                timeSheetView.addAll(dates.await())
-                timeSheetView.hideProgress()
-            }
+            timeSheetView.clear()
+            timeSheetView.addAll(dates.await())
+            timeSheetView.hideProgress()
         }
     }
 
     fun onFixStart() {
         timeSheetView.showProgress()
-        processScope.launch(context = job) {
+        scope.launch {
             val dates = async {
                 timeSheetInteractor.addStartTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
             }
-            withContext(uiScope.coroutineContext) {
-                timeSheetView.clear()
-                timeSheetView.addAll(dates.await())
-                timeSheetView.hideProgress()
-            }
+            timeSheetView.clear()
+            timeSheetView.addAll(dates.await())
+            timeSheetView.hideProgress()
         }
     }
 
     fun onFixEnd() {
         timeSheetView.showProgress()
-        processScope.launch(context = job) {
+        scope.launch {
             val dates = async {
                 timeSheetInteractor.addEndTime(DateTime.now())
                 timeSheetInteractor.getDatesList(getStartDate())
             }
-            withContext(uiScope.coroutineContext) {
-                timeSheetView.clear()
-                timeSheetView.addAll(dates.await())
-                timeSheetView.hideProgress()
-            }
+            timeSheetView.clear()
+            timeSheetView.addAll(dates.await())
+            timeSheetView.hideProgress()
         }
     }
 
@@ -74,7 +77,7 @@ class TimeSheetPresenter(val timeSheetView: TimeSheetView, timeSheetRepository: 
     }
 
     fun onDestroyView() {
-        job.cancel()
+        scope.cancel()
     }
 
     companion object {
