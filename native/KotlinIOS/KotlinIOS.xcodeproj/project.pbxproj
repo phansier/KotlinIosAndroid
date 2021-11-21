@@ -12,8 +12,6 @@
 		55831C0A2168C3EB0049A2B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55831C082168C3EB0049A2B4 /* Main.storyboard */; };
 		55831C0C2168C3ED0049A2B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55831C0B2168C3ED0049A2B4 /* Assets.xcassets */; };
 		55831C0F2168C3ED0049A2B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55831C0D2168C3ED0049A2B4 /* LaunchScreen.storyboard */; };
-		55831C172168D2730049A2B4 /* SharedCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55831C162168D2730049A2B4 /* SharedCode.framework */; };
-		55831C182168D2730049A2B4 /* SharedCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55831C162168D2730049A2B4 /* SharedCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,7 +21,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				55831C182168D2730049A2B4 /* SharedCode.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,7 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55831C172168D2730049A2B4 /* SharedCode.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/../../SharedCode/build/xcode-frameworks\"\n./gradlew :SharedCode:packForXCode";
+			shellScript = "cd \"$SRCROOT/../..\"\n./gradlew :SharedCode:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -320,11 +316,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = KotlinIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					SharedCode,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.beryukhov.KotlinIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -339,11 +340,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../SharedCode/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = KotlinIOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					SharedCode,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.beryukhov.KotlinIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";

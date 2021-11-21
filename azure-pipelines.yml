@@ -21,4 +21,4 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'app:assembleDebug packForXCode backend:jar jvmTest'
+    tasks: 'app:assembleDebug :SharedCode:linkdebugFrameworkIosX64 backend:jar jvmTest jsBrowser'

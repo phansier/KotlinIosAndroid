@@ -1,4 +1,2 @@
 include ':app', ':backend'
 include ':SharedCode'
-
-enableFeaturePreview('GRADLE_METADATA')
