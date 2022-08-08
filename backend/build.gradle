@@ -6,13 +6,12 @@ sourceSets {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     implementation "io.ktor:ktor-server-netty:$ktor_version"
-    implementation "io.ktor:ktor-html-builder:$ktor_version"
+    implementation "io.ktor:ktor-server-html-builder:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
-    implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "io.ktor:ktor-server-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "com.soywiz.korlibs.klock:klock:$klockVersion"
 
     implementation project(':SharedCode')
