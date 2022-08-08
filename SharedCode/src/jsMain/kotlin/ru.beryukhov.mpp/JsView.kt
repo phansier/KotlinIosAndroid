@@ -8,8 +8,8 @@ import ru.beryukhov.mpp.domain.BaseTimeSheetRepositoryImpl
 import ru.beryukhov.mpp.domain.DateModel
 import ru.beryukhov.mpp.presenter.TimeSheetPresenter
 import ru.beryukhov.mpp.view.TimeSheetView
-import kotlin.browser.document
-import kotlin.browser.window
+import kotlinx.browser.document
+import kotlinx.browser.window
 
 fun main() {
     JsView.init()
@@ -17,7 +17,8 @@ fun main() {
 
 private const val divClass = "div"
 private const val spanClass = "span"
-private const val defaultButtonStyle = "border: none; color: white; padding: 15px 32px; margin: 18px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;"
+private const val defaultButtonStyle =
+    "border: none; color: white; padding: 15px 32px; margin: 18px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;"
 private const val greenButtonStyle = "background-color: #4CAF50;\n" + defaultButtonStyle
 private const val redButtonStyle = "background-color: #f44336;\n" + defaultButtonStyle
 private const val divStyle = "padding: 8px 16px; border-bottom: 2px solid #7B5427;"
@@ -78,9 +79,9 @@ object JsView : TimeSheetView {
     override fun clear() {
         println("clear")
         document.body
-                ?.getElementsByClassName(divClass)
-                ?.asList()
-                ?.forEach { it.remove() }
+            ?.getElementsByClassName(divClass)
+            ?.asList()
+            ?.forEach { it.remove() }
     }
 
     override fun showError(message: String) {
